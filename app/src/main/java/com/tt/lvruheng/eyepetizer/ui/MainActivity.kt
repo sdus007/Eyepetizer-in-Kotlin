@@ -1,11 +1,9 @@
 package com.tt.lvruheng.eyepetizer.ui
 
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
@@ -20,8 +18,6 @@ import com.tt.lvruheng.eyepetizer.ui.fragment.MineFragment
 import com.tt.lvruheng.eyepetizer.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import android.view.WindowManager
-
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
