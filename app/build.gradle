@@ -6,6 +6,16 @@ apply plugin: 'kotlin-android-extensions'
 
 
 android {
+    //签名配置
+    signingConfigs {
+        MyConfig {
+            storeFile file('../buildtools/debugkeystore')
+            storePassword "mm61pGAK"
+            keyAlias "fltalias"
+            keyPassword "mm61pGAK"
+            v2SigningEnabled true
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     ndkVersion '21.3.6528147'
@@ -15,13 +25,50 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.MyConfig
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.MyConfig
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false  //用于控制是否混淆
+            signingConfig signingConfigs.MyConfig
+        }
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/dependencies'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/README.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude '!META-INF/MANIFEST.MF'
+        exclude 'META-INF/MANIFEST.MF'
+    }
+    // 移除lint检查的error
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    dexOptions {
+        //解决运行时报java.lang.OutOfMemoryError: GC overhead limit exceeded,
+        //Process 'command '/usr/local/jdk1.7.0_79/bin/java'' finished with non-zero exit value 1
+        // 不要超过gradle.properties中设置的jvm大小
+        javaMaxHeapSize "3g"
     }
 }
 
